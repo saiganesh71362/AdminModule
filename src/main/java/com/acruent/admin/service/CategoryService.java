@@ -11,5 +11,6 @@ public interface CategoryService
 	public List<Category> getAllCatagories();
 	public String updateCategoryById(Category category , Integer id) throws Exception;
 	public String deleteCategoryById(Integer id) throws Exception;
+    public  boolean categoryStatusChange(Integer categoryId, String status);
 
 }

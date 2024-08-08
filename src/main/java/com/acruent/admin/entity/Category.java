@@ -1,6 +1,6 @@
 package com.acruent.admin.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,9 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name =  "CATEGORY_TABLE")
-public class Category 
-{
+@Table(name = "CATEGORY_TABLE")
+public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer categoryId;
@@ -24,54 +23,40 @@ public class Category
 	// Audit Columns
 	// created by updated by skip
 	@CreationTimestamp
-	@Column(updatable  = false)
-	private LocalDateTime createdDate;
+	@Column(updatable = false)
+	private LocalDate createdDate;
 	@UpdateTimestamp
 	@Column(insertable = false)
-	private LocalDateTime updatedDate;
+	private LocalDate updatedDate;
 	private String createdBy;
 	private String updatedBy;
-	
-	
 
-	public Category(String categoryName, String activeSwitch, LocalDateTime createdDate, LocalDateTime updatedDate,
-			String createdBy, String updatedBy) {
+	public Category(String categoryName, String activeSwitch, String createdBy, String updatedBy) {
 		this.categoryName = categoryName;
 		this.activeSwitch = activeSwitch;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
 		this.createdBy = createdBy;
 		this.updatedBy = updatedBy;
 	}
 
-	public Category() {}
-	
+	public Category() {
+	}
+
 	public String getCategoryName() {
 		return categoryName;
 	}
+
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
+
 	public String getActiveSwitch() {
 		return activeSwitch;
 	}
+
 	public void setActiveSwitch(String activeSwitch) {
 		this.activeSwitch = activeSwitch;
 	}
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-	public LocalDateTime getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(LocalDateTime updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-	
-	
+
 	public String getCreatedBy() {
 		return createdBy;
 	}
@@ -101,10 +86,5 @@ public class Category
 		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", activeSwitch="
 				+ activeSwitch + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + "]";
 	}
-	
-	
-	
-	
 
-	
 }

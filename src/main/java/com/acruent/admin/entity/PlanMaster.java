@@ -1,7 +1,6 @@
 package com.acruent.admin.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,25 +27,22 @@ public class PlanMaster
 	// audit columns
 	@CreationTimestamp
 	@Column(updatable = false)
-	private LocalDateTime createdDate;
+	private LocalDate createdDate;
 	@UpdateTimestamp
 	@Column(insertable = false)
-	private LocalDateTime updatedDate;
+	private LocalDate updatedDate;
 	private String createdBy;
 	private String updateBy;
 	
 	
 	public PlanMaster() {}
 	public PlanMaster(String planName, LocalDate planStartedDate, LocalDate planEndedDate, Integer planCategegoryId,
-			String activeSwitch, LocalDateTime createdDate, LocalDateTime updatedDate, String createdBy,
-			String updateBy) {
+			String activeSwitch,  String createdBy,String updateBy) {
 		this.planName = planName;
 		this.planStartedDate = planStartedDate;
 		this.planEndedDate = planEndedDate;
 		this.planCategegoryId = planCategegoryId;
 		this.activeSwitch = activeSwitch;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
 		this.createdBy = createdBy;
 		this.updateBy = updateBy;
 	}
@@ -87,18 +83,7 @@ public class PlanMaster
 	public void setActiveSwitch(String activeSwitch) {
 		this.activeSwitch = activeSwitch;
 	}
-	public LocalDateTime getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(LocalDateTime createdDate) {
-		this.createdDate = createdDate;
-	}
-	public LocalDateTime getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(LocalDateTime updatedDate) {
-		this.updatedDate = updatedDate;
-	}
+	
 	public String getCreatedBy() {
 		return createdBy;
 	}
