@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acruent.admin.entity.Category;
-import com.acruent.admin.exceptionhandle.IdNotFoundException;
 import com.acruent.admin.service.CategoryService;
 
 @RestController
@@ -47,23 +46,19 @@ public class CategoryController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) throws Exception {
-	    logger.info("Received request to get Category by ID: {}", id);
+		logger.info("Received request to get Category by ID: {}", id);
 
-	    try {
-	        Category categoryById = categoryService.getCategoryById(id);
-	        logger.info("Successfully retrieved Category with ID: {}", id);
-	        return new ResponseEntity<>(categoryById, HttpStatus.OK);
-	    } catch (IdNotFoundException e) {
-	        logger.warn("Category with ID: {} not found", id);
-	        throw e; // This will be caught by the exception handler
-	    }
+		Category categoryById = categoryService.getCategoryById(id);
+		logger.info("Successfully retrieved Category with ID: {}", id);
+		return new ResponseEntity<>(categoryById, HttpStatus.FOUND);
+
 	}
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Category>> getAllCategories() {
 		logger.info("Received request to get all categories");
 
-		List<Category> allCategories = categoryService.getAllCatagories();
+		List<Category> allCategories = categoryService.getAllCatagories(); // external Dependency
 
 		if (!allCategories.isEmpty()) {
 			logger.info("Successfully retrieved {} categories", allCategories.size());
@@ -71,7 +66,7 @@ public class CategoryController {
 			logger.warn("No categories found");
 		}
 
-		return new ResponseEntity<>(allCategories, HttpStatus.OK);
+		return new ResponseEntity<>(allCategories, HttpStatus.FOUND);
 
 	}
 
@@ -81,58 +76,40 @@ public class CategoryController {
 		logger.info("Received request to update Category with ID: {}", id);
 		logger.debug("Category details: {}", category);
 
-		try {
-			String updateCategoryById = categoryService.updateCategoryById(category, id);
+		String updateCategoryById = categoryService.updateCategoryById(category, id);
 
-			logger.info("Successfully updated Category with ID: {}", id);
-			return new ResponseEntity<>(updateCategoryById, HttpStatus.ACCEPTED);
-
-		} catch (IdNotFoundException e) {
-			logger.error("Error occurred while updating Category with ID: {}", id, e);
-			throw e; // Re-throw the exception to be handled by a global exception handler
-		} catch (Exception e) {
-			logger.error("Unexpected error occurred while deleting Category with ID: {}", id, e);
-			return new ResponseEntity<>("Internal server error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+		logger.info("Successfully updated Category with ID: {}", id);
+		return new ResponseEntity<>(updateCategoryById, HttpStatus.OK);
 
 	}
 
 	@DeleteMapping("/deleteCategory/{id}")
-	public ResponseEntity<String> deleteCategoryById(@PathVariable Integer id) {
+	public ResponseEntity<String> deleteCategoryById(@PathVariable Integer id) throws Exception {
 		logger.info("Received request to delete Category with ID: {}", id);
 
-		try {
-			String result = categoryService.deleteCategoryById(id);
+		String result = categoryService.deleteCategoryById(id);
 
-			logger.info("Successfully deleted Category with ID: {}", id);
-			return new ResponseEntity<>(result, HttpStatus.ACCEPTED);
+		logger.info("Successfully deleted Category with ID: {}", id);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 
-		} catch (IdNotFoundException e) {
-			logger.error("ID not found exception occurred while deleting Category with ID: {}", id, e);
-			throw e; // Re-throw to be handled by the global exception handler
-		} catch (Exception e) {
-			logger.error("Unexpected error occurred while deleting Category with ID: {}", id, e);
-			return new ResponseEntity<>("Internal server error occurred.", HttpStatus.INTERNAL_SERVER_ERROR);
-		}
 	}
-	
+
 	@PatchMapping("/categoryStatusChange/{status}/{id}")
 	public ResponseEntity<String> categoryStatusChange(@PathVariable String status, @PathVariable Integer id) {
-	    logger.info("Received request to change status of Category with ID: {} to status: {}", id, status);
+		logger.info("Received request to change status of Category with ID: {} to status: {}", id, status);
 
-	        boolean categoryStatusChanged = categoryService.categoryStatusChange(id, status);
-	        String msg;
+		boolean categoryStatusChanged = categoryService.categoryStatusChange(id, status);
+		String msg;
 
-	        if (categoryStatusChanged)
-	        {
-	            msg = "Successfully updated status for Category ID: " + id;
-	            logger.info(msg);
-	            return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
-	        } else {
-	            msg = "Failed to update status for Category ID: " + id;
-	            logger.warn(msg);
-	            return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
-	        
-	    } 
+		if (categoryStatusChanged) {
+			msg = "Successfully updated status for Category ID: " + id;
+			logger.info(msg);
+			return new ResponseEntity<>(msg, HttpStatus.OK);
+		} else {
+			msg = "Failed to update status for Category ID: " + id;
+			logger.warn(msg);
+			return new ResponseEntity<>(msg, HttpStatus.BAD_REQUEST);
+
+		}
 	}
 }

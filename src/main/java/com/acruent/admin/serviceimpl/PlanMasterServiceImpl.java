@@ -62,7 +62,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 			existPlan.setCreatedBy(planMaster.getCreatedBy());
 			existPlan.setUpdateBy(planMaster.getUpdateBy());
             planMasterRepository.save(existPlan);
-			return "Updated Recored Success Fully :" + existPlan.getPlanId();
+			return "Updated Record Success Fully :" + existPlan.getPlanId();
 
 		}
 		throw new IdNotFoundException("NoIdException :" + planMaster.getPlanId());
@@ -73,7 +73,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 		Optional<PlanMaster> findById = planMasterRepository.findById(id);
 		if (findById.isPresent()) {
 			planMasterRepository.deleteById(id);
-			return "Delete Successful: " + findById.get().toString(); // Ensure PlanMaster has a meaningful toString
+			return "Record Deleted Successfully:"+findById.get().toString(); // Ensure PlanMaster has a meaningful toString
 																		// method
 		}
 		throw new IdNotFoundException("No ID found for deletion: " + id);

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acruent.admin.entity.PlanMaster;
-import com.acruent.admin.exceptionhandle.IdNotFoundException;
 import com.acruent.admin.service.PlanMasterService;
 
 @RestController
@@ -44,7 +43,7 @@ public class PlanController {
 		logger.info("Received request to get Plan by ID: {}", id);
 		PlanMaster planById = planMasterService.getPlanById(id);
 		logger.info("Successfully retrieved Plan with ID: {}", id);
-		return new ResponseEntity<>(planById, HttpStatus.OK);
+		return new ResponseEntity<>(planById, HttpStatus.FOUND);
 
 	}
 
@@ -53,7 +52,7 @@ public class PlanController {
 		logger.info("Received request to get all categories");
 		List<PlanMaster> allPlans = planMasterService.getAllPlans();
 		logger.info("Successfully retrieved {} categories", allPlans.size());
-		return new ResponseEntity<List<PlanMaster>>(allPlans, HttpStatus.OK);
+		return new ResponseEntity<List<PlanMaster>>(allPlans, HttpStatus.FOUND);
 	}
 
 	@PutMapping("/updatePlan/{id}")
@@ -64,7 +63,7 @@ public class PlanController {
 		String updatePlanById = planMasterService.updatePlanById(planMaster, id);
 		logger.info("Successfully updated Category with ID: {}", id);
 
-		return new ResponseEntity<String>(updatePlanById, HttpStatus.ACCEPTED);
+		return new ResponseEntity<String>(updatePlanById, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletePlan/{id}")
@@ -85,7 +84,7 @@ public class PlanController {
 		if (categoryStatusChanged) {
 			msg = "Successfully updated status for Plan ID: " + id;
 			logger.info(msg);
-			return new ResponseEntity<>(msg, HttpStatus.ACCEPTED);
+			return new ResponseEntity<>(msg, HttpStatus.OK);
 		} else {
 			msg = "Failed to update status for Plan ID: " + id;
 			logger.warn(msg);
