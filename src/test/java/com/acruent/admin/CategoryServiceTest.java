@@ -18,8 +18,8 @@ import com.acruent.admin.entity.Category;
 import com.acruent.admin.repository.CategoryRepository;
 import com.acruent.admin.serviceimpl.CategoryServiceImpl;
 
-@SpringBootTest(classes = ServiceClassMockitoTest.class)
-public class ServiceClassMockitoTest {
+@SpringBootTest(classes = CategoryServiceTest.class)
+class CategoryServiceTest {
 
 	@Mock
 	CategoryRepository categoryRepository;
@@ -31,7 +31,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(1)
-	public void test_getAllCatagories() {
+	 void test_getAllCatagories() {
 		ArrayList<Category> mydata = new ArrayList<Category>();
 
 		Category category1 = new Category("FOOD", "Y", "Admin", "Admin");
@@ -50,7 +50,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(2)
-	public void test_getCategoryById() throws Exception {
+	 void test_getCategoryById() throws Exception {
 		Integer id = 1;
 		Category category = new Category("FOOD", "Y", "Admin", "Admin");
 		category.setCategoryId(id);
@@ -61,7 +61,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(3)
-	public void test_creatNewCategory() {
+	 void test_creatNewCategory() {
 		Category category = new Category("QUALIFIED", "N", "Admin", "Admin");
 		when(categoryRepository.save(category)).thenAnswer(invocation -> {
 			Category savedCategory = invocation.getArgument(0);
@@ -74,7 +74,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(4)
-	public void test_createCategory_alreadyExists() {
+	 void test_createCategory_alreadyExists() {
 		// Arrange
 		Integer id = 2;
 		Category category = new Category("QUALIFIED", "N", "Admin", "Admin");
@@ -85,7 +85,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(5)
-	public void test_UpdateCategory() throws Exception {
+	 void test_UpdateCategory() throws Exception {
 		// Arrange
 		Category category = new Category("QUALIFIED", "Y", "Admin", "Admin");
 		Category existingCategory = new Category("QUALIFIED", "N", "User", "User");
@@ -101,7 +101,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(6)
-	public void test_DeleteCategoryById() throws Exception {
+	 void test_DeleteCategoryById() throws Exception {
 		// Arrange
 		Category category = new Category("QUALIFIED", "Y", "Admin", "Admin");
 		category.setCategoryId(1);
@@ -114,7 +114,7 @@ public class ServiceClassMockitoTest {
 
 	@Test
 	@Order(7)
-	public void test_CategoryStatusChange() {
+	 void test_CategoryStatusChange() {
 		// Arrange
 		Category category = new Category("QUALIFIED", "Y", "Admin", "Admin");
 		category.setCategoryId(1);

@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
-import com.acruent.admin.controller.CategoryController;
 
 @ControllerAdvice
 public class GlobalExceptionHandle 
 {
-    private static final Logger logger = LogManager.getLogger(CategoryController.class);
+    private static final Logger logger = LogManager.getLogger(GlobalExceptionHandle.class);
 
     @ExceptionHandler(IdNotFoundException.class)
     public ResponseEntity<ExceptionMessage> handleIdNotFoundException(IdNotFoundException idNotFoundException, WebRequest webRequest) {
@@ -28,6 +27,22 @@ public class GlobalExceptionHandle
         );
 
         return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(CategoryNotFoundException.class)
+   public ResponseEntity<ExceptionMessage> handleCategoryNotFoundException(CategoryNotFoundException categoryNotFoundException,WebRequest webrequest)
+    {
+    	ExceptionMessage message = new ExceptionMessage(new Date(), categoryNotFoundException.getMessage(),  webrequest.getDescription(false));
+    	
+    	return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(PlanNotFoundException.class)
+    public ResponseEntity<ExceptionMessage> handlePlanNotFoundException(PlanNotFoundException planNotFoundException,WebRequest webRequest)
+    {
+    	ExceptionMessage message = new ExceptionMessage(new Date(), planNotFoundException.getMessage(), webRequest.getDescription(false));
+    	return new ResponseEntity<>(message,HttpStatus.NOT_FOUND);
+    	
     }
 
 }

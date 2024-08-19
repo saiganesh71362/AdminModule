@@ -75,6 +75,8 @@
     <groupId>org.apache.logging.log4j</groupId>
     <artifactId>log4j-core</artifactId>
   </dependency>
+
+  
  </dependencies>
  <build>
 		<plugins>
@@ -90,6 +92,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
 

@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.acruent.admin.entity.PlanMaster;
+import com.acruent.admin.exceptionhandle.IdNotFoundException;
 import com.acruent.admin.service.PlanMasterService;
 
 @RestController
 @RequestMapping("/plan")
 public class PlanController {
-	private static final Logger logger = LogManager.getLogger(CategoryController.class);
+	private static final Logger logger = LogManager.getLogger(PlanController.class);
 
 	private PlanMasterService planMasterService;
 
@@ -35,11 +36,11 @@ public class PlanController {
 		logger.info("Request received to create a new Plan: {}", planMaster);
 		String createPlan = planMasterService.createPlan(planMaster);
 		logger.info("Plan created successfully: {}", createPlan);
-		return new ResponseEntity<String>(createPlan, HttpStatus.CREATED);
+		return new ResponseEntity<>(createPlan, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PlanMaster> getPlanById(@PathVariable Integer id) throws Exception {
+	public ResponseEntity<PlanMaster> getPlanById(@PathVariable Integer id) throws IdNotFoundException {
 		logger.info("Received request to get Plan by ID: {}", id);
 		PlanMaster planById = planMasterService.getPlanById(id);
 		logger.info("Successfully retrieved Plan with ID: {}", id);
@@ -52,22 +53,22 @@ public class PlanController {
 		logger.info("Received request to get all categories");
 		List<PlanMaster> allPlans = planMasterService.getAllPlans();
 		logger.info("Successfully retrieved {} categories", allPlans.size());
-		return new ResponseEntity<List<PlanMaster>>(allPlans, HttpStatus.FOUND);
+		return new ResponseEntity<>(allPlans, HttpStatus.FOUND);
 	}
 
 	@PutMapping("/updatePlan/{id}")
 	public ResponseEntity<String> updatePlanById(@RequestBody PlanMaster planMaster, @PathVariable Integer id)
-			throws Exception {
+			throws IdNotFoundException {
 		logger.info("Received request to update Category with ID: {}", id);
 		logger.debug("Category details: {}", planMaster);
 		String updatePlanById = planMasterService.updatePlanById(planMaster, id);
 		logger.info("Successfully updated Category with ID: {}", id);
 
-		return new ResponseEntity<String>(updatePlanById, HttpStatus.OK);
+		return new ResponseEntity<>(updatePlanById, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deletePlan/{id}")
-	public ResponseEntity<String> deletePlanById(@PathVariable Integer id) throws Exception {
+	public ResponseEntity<String> deletePlanById(@PathVariable Integer id) throws IdNotFoundException {
 		logger.info("Received request to delete Plan with ID: {}", id);
 		String response = planMasterService.deletePlanById(id);
 		logger.info("Successfully deleted Plan with ID: {}", id);

@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.acruent.admin.appconstants.AdminModuleAppConstants;
 import com.acruent.admin.entity.Category;
+import com.acruent.admin.exceptionhandle.IdNotFoundException;
 import com.acruent.admin.service.CategoryService;
 
 @RestController
@@ -33,19 +35,20 @@ public class CategoryController {
 
 	@PostMapping("/newCategory")
 	public ResponseEntity<String> createCategory(@RequestBody Category category) {
-		logger.info("Request received to create a new category: {}", category);
+		logger.info(AdminModuleAppConstants.REQUEST_SEND_NEW_CATEGORY, category);
 		String createCategory = categoryService.createCategory(category);
 		if (createCategory != null) {
-			logger.info("Category created successfully: {}", createCategory);
-			return new ResponseEntity<String>(createCategory, HttpStatus.CREATED);
+			logger.info(AdminModuleAppConstants.CATEGORY_CREATED, createCategory);
+			return new ResponseEntity<>(createCategory, HttpStatus.CREATED);
 		} else {
-			logger.error("Failed to create category.");
-			return new ResponseEntity<String>("Category creation failed", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error(AdminModuleAppConstants.CATEGORY_CREATION_FAILD);
+			return new ResponseEntity<>(AdminModuleAppConstants.CATEGORY_CREATION_FAILD,
+					HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) throws Exception {
+	public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) throws IdNotFoundException {
 		logger.info("Received request to get Category by ID: {}", id);
 
 		Category categoryById = categoryService.getCategoryById(id);
@@ -72,7 +75,7 @@ public class CategoryController {
 
 	@PutMapping("/updateCategory/{id}")
 	public ResponseEntity<String> updateCategoryById(@PathVariable Integer id, @RequestBody Category category)
-			throws Exception {
+			throws IdNotFoundException {
 		logger.info("Received request to update Category with ID: {}", id);
 		logger.debug("Category details: {}", category);
 
@@ -84,7 +87,7 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("/deleteCategory/{id}")
-	public ResponseEntity<String> deleteCategoryById(@PathVariable Integer id) throws Exception {
+	public ResponseEntity<String> deleteCategoryById(@PathVariable Integer id) throws IdNotFoundException {
 		logger.info("Received request to delete Category with ID: {}", id);
 
 		String result = categoryService.deleteCategoryById(id);

@@ -19,7 +19,7 @@ import com.acruent.admin.entity.Category;
 import com.acruent.admin.serviceimpl.CategoryServiceImpl;
 
 @SpringBootTest
-public class ControllerClassMockitoCategory {
+ class CategoryControllerTest {
 	@Mock
 	CategoryServiceImpl categoryServiceImpl;
 
@@ -28,7 +28,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(1)
-	public void test_createCategory() {
+	 void test_createCategory() {
 		Integer id = 1;
 		Category category1 = new Category("CHAILD", "N", "Admin", "Admin");
 
@@ -45,7 +45,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(2)
-	public void test_getCategoryById() throws Exception {
+	 void test_getCategoryById() throws Exception {
 		Integer id = 3;
 		Category category3 = new Category("CHAILD", "N", "Admin", "Admin");
 		category3.setCategoryId(id);
@@ -58,7 +58,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(3)
-	public void test_getAllCategories() {
+	 void test_getAllCategories() {
 		ArrayList<Category> categoryList = new ArrayList<Category>();
 		Category category1 = new Category("FOOD", "Y", "Admin", "Admin");
 		Category category2 = new Category("MEDICAL", "N", "Admin", "Admin");
@@ -78,7 +78,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(4)
-	public void test_updateCategoryById() throws Exception {
+	 void test_updateCategoryById() throws Exception {
 		Integer id = 3;
 
 		Category category3 = new Category("MEDICAID", "N", "Admin", "Admin");
@@ -94,7 +94,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(5)
-	public void test_deleteCategoryById() throws Exception {
+	 void test_deleteCategoryById() throws Exception {
 		Integer id = 3;
 
 		Category category3 = new Category("MEDICAID", "N", "Admin", "Admin");
@@ -110,7 +110,7 @@ public class ControllerClassMockitoCategory {
 
 	@Test
 	@Order(6)
-	public void test_categoryStatusChange() {
+	 void test_categoryStatusChange() {
 		Integer id = 3;
 
 		Category category3 = new Category("MEDICAID", "N", "Admin", "Admin");

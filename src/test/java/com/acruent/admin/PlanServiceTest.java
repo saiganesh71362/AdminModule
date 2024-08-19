@@ -18,8 +18,8 @@ import com.acruent.admin.entity.PlanMaster;
 import com.acruent.admin.repository.PlanMasterRepository;
 import com.acruent.admin.serviceimpl.PlanMasterServiceImpl;
 
-@SpringBootTest(classes = ServiceClassMockitoPlan.class)
-public class ServiceClassMockitoPlan {
+@SpringBootTest(classes = PlanServiceTest.class)
+class PlanServiceTest {
 
 	@Mock
 	PlanMasterRepository planMasterRepository;
@@ -28,7 +28,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(1)
-	public void test_getAllPlans() {
+	void test_getAllPlans() {
 
 		ArrayList<PlanMaster> listOfPlans = new ArrayList<PlanMaster>();
 
@@ -49,7 +49,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(2)
-	public void test_getPlanById() throws Exception {
+	void test_getPlanById() throws Exception {
 		Integer planId = 3;
 		PlanMaster plan3 = new PlanMaster("QHP", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y", "Admin",
 				"Admin");
@@ -62,7 +62,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(3)
-	public void test_createPlan() {
+	 void test_createPlan() {
 		PlanMaster plan4 = new PlanMaster("QHP", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y", "Admin",
 				"Admin");
 		when(planMasterRepository.save(plan4)).thenAnswer(invocation -> {
@@ -77,7 +77,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(4)
-	public void test_updatePlanById() throws Exception {
+	void test_updatePlanById() throws Exception {
 		PlanMaster existingPlan = new PlanMaster("QHP", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
 		existingPlan.setPlanId(4);
@@ -94,7 +94,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(5)
-	public void test_deletePlanById() throws Exception {
+	void test_deletePlanById() throws Exception {
 		PlanMaster plan5 = new PlanMaster("MEDICAL", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
 		plan5.setPlanId(5);
@@ -108,7 +108,7 @@ public class ServiceClassMockitoPlan {
 
 	@Test
 	@Order(6)
-	public void test_planStatusChange() {
+	void test_planStatusChange() {
 		PlanMaster plan5 = new PlanMaster("MEDICAL", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
 		plan5.setPlanId(5);

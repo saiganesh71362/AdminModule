@@ -20,7 +20,7 @@ import com.acruent.admin.entity.PlanMaster;
 import com.acruent.admin.serviceimpl.PlanMasterServiceImpl;
 
 @SpringBootTest
-public class ControllerClassMockitoPlan {
+class PlanControllerTest {
 	@Mock
 	PlanMasterServiceImpl planMasterServiceImpl;
 
@@ -29,7 +29,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(1)
-	public void test_createNewPlan() {
+	void test_createNewPlan() {
 		Integer id = 1;
 		PlanMaster plan1 = new PlanMaster("SNAP", LocalDate.of(2024, 7, 3), LocalDate.of(2025, 7, 2), 1, "Y", "Admin",
 				"Admin");
@@ -45,7 +45,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(2)
-	public void test_getPlanById() throws Exception {
+	void test_getPlanById() throws Exception {
 		Integer id = 2;
 		PlanMaster plan2 = new PlanMaster("CCP", LocalDate.of(2024, 12, 25), LocalDate.of(2023, 12, 24), 2, "N",
 				"Admin", "Admin");
@@ -61,7 +61,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(3)
-	public void test_getAllPlans() {
+	void test_getAllPlans() {
 		ArrayList<PlanMaster> listOfPlans = new ArrayList<PlanMaster>();
 
 		PlanMaster plan1 = new PlanMaster("SNAP", LocalDate.of(2024, 7, 3), LocalDate.of(2025, 7, 2), 1, "Y", "Admin",
@@ -84,7 +84,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(4)
-	public void test_updatePlanById() throws Exception {
+	void test_updatePlanById() throws Exception {
 		Integer id = 2;
 		PlanMaster plan2 = new PlanMaster("CCP", LocalDate.of(2024, 12, 25), LocalDate.of(2023, 12, 24), 2, "N",
 				"Admin", "SAIGANESH");
@@ -100,7 +100,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(5)
-	public void test_deletePlanById() throws Exception {
+	void test_deletePlanById() throws Exception {
 		Integer id = 2;
 		PlanMaster plan2 = new PlanMaster("CCP", LocalDate.of(2024, 12, 25), LocalDate.of(2023, 12, 24), 2, "N",
 				"Admin", "SAIGANESH");
@@ -116,7 +116,7 @@ public class ControllerClassMockitoPlan {
 
 	@Test
 	@Order(6)
-	public void test_categoryStatusChange() {
+	void test_categoryStatusChange() {
 		Integer id = 2;
 		PlanMaster plan2 = new PlanMaster("CCP", LocalDate.of(2024, 12, 25), LocalDate.of(2023, 12, 24), 2, "N",
 				"Admin", "SAIGANESH");

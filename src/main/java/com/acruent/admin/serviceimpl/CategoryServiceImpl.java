@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.acruent.admin.entity.Category;
+import com.acruent.admin.exceptionhandle.CategoryNotFoundException;
 import com.acruent.admin.exceptionhandle.IdNotFoundException;
 import com.acruent.admin.repository.CategoryRepository;
 import com.acruent.admin.service.CategoryService;
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
 		Integer categoryId = category.getCategoryId();
 		if (categoryId == null) {
 			Category saveCategory = categoryRepository.save(category);
-			if (saveCategory != null && saveCategory.getCategoryId() != null) {
+			if (saveCategory.getCategoryId() != null) {
 				return "Record Created Success Fully :" + saveCategory.getCategoryId();
 			} else {
 				return "Record Creation Faild" + saveCategory.getCategoryId();
@@ -38,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public Category getCategoryById(Integer id) throws Exception {
+	public Category getCategoryById(Integer id) throws CategoryNotFoundException {
 		Optional<Category> findById = categoryRepository.findById(id);
 
 		if (findById.isPresent()) {
@@ -50,12 +51,11 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getAllCatagories() {
-		List<Category> findAll = categoryRepository.findAll();
-		return findAll;
+		return categoryRepository.findAll();
 	}
 
 	@Override
-	public String updateCategoryById(Category category, Integer id) throws Exception {
+	public String updateCategoryById(Category category, Integer id) throws IdNotFoundException {
 		Category existingCategory = categoryRepository.findById(id).orElse(null);
 		if (existingCategory != null) {
 			existingCategory.setCategoryName(category.getCategoryName());
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public String deleteCategoryById(Integer id) throws Exception {
+	public String deleteCategoryById(Integer id) throws IdNotFoundException {
 		Optional<Category> findById = categoryRepository.findById(id);
 
 		if (findById.isPresent()) {

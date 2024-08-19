@@ -23,7 +23,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 		Integer planId = planMaster.getPlanId();
 		if (planId == null) {
 			PlanMaster newPlan = planMasterRepository.save(planMaster);
-			if (newPlan != null && newPlan.getPlanId() != null) {
+			if (newPlan.getPlanId() != null) {
 				return "Record Created Success Fully :" + newPlan.getPlanId();
 			} else {
 				return "Record Creation Faild" + newPlan.getPlanId();
@@ -36,7 +36,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 	}
 
 	@Override
-	public PlanMaster getPlanById(Integer id) throws Exception {
+	public PlanMaster getPlanById(Integer id) throws IdNotFoundException {
 		Optional<PlanMaster> findById = planMasterRepository.findById(id);
 		if (findById.isPresent()) {
 			return findById.get();
@@ -46,12 +46,11 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 
 	@Override
 	public List<PlanMaster> getAllPlans() {
-		List<PlanMaster> findAll = planMasterRepository.findAll();
-		return findAll;
+		return planMasterRepository.findAll();
 	}
 
 	@Override
-	public String updatePlanById(PlanMaster planMaster, Integer id) throws Exception {
+	public String updatePlanById(PlanMaster planMaster, Integer id) throws IdNotFoundException {
 		PlanMaster existPlan = planMasterRepository.findById(id).orElse(null);
 		if (existPlan != null) {
 			existPlan.setPlanName(planMaster.getPlanName());
@@ -61,7 +60,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 			existPlan.setPlanCategegoryId(planMaster.getPlanCategegoryId());
 			existPlan.setCreatedBy(planMaster.getCreatedBy());
 			existPlan.setUpdateBy(planMaster.getUpdateBy());
-            planMasterRepository.save(existPlan);
+			planMasterRepository.save(existPlan);
 			return "Updated Record Success Fully :" + existPlan.getPlanId();
 
 		}
@@ -69,12 +68,13 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 	}
 
 	@Override
-	public String deletePlanById(Integer id) throws Exception {
+	public String deletePlanById(Integer id) throws IdNotFoundException {
 		Optional<PlanMaster> findById = planMasterRepository.findById(id);
 		if (findById.isPresent()) {
 			planMasterRepository.deleteById(id);
-			return "Record Deleted Successfully:"+findById.get().toString(); // Ensure PlanMaster has a meaningful toString
-																		// method
+			return "Record Deleted Successfully:" + findById.get().toString(); // Ensure PlanMaster has a meaningful
+																				// toString
+			// method
 		}
 		throw new IdNotFoundException("No ID found for deletion: " + id);
 	}
