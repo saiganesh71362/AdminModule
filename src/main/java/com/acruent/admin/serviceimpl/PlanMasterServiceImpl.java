@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.acruent.admin.entity.PlanMaster;
-import com.acruent.admin.exceptionhandle.IdNotFoundException;
+import com.acruent.admin.exceptionhandle.PlanNotFoundException;
 import com.acruent.admin.repository.PlanMasterRepository;
 import com.acruent.admin.service.PlanMasterService;
 
@@ -36,12 +36,12 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 	}
 
 	@Override
-	public PlanMaster getPlanById(Integer id) throws IdNotFoundException {
+	public PlanMaster getPlanById(Integer id) throws PlanNotFoundException {
 		Optional<PlanMaster> findById = planMasterRepository.findById(id);
 		if (findById.isPresent()) {
 			return findById.get();
 		}
-		throw new IdNotFoundException("Plan ID not found: " + id);
+		throw new PlanNotFoundException("Plan ID not found: " + id);
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 	}
 
 	@Override
-	public String updatePlanById(PlanMaster planMaster, Integer id) throws IdNotFoundException {
+	public String updatePlanById(PlanMaster planMaster, Integer id) throws PlanNotFoundException {
 		PlanMaster existPlan = planMasterRepository.findById(id).orElse(null);
 		if (existPlan != null) {
 			existPlan.setPlanName(planMaster.getPlanName());
@@ -64,11 +64,11 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 			return "Updated Record Success Fully :" + existPlan.getPlanId();
 
 		}
-		throw new IdNotFoundException("NoIdException :" + planMaster.getPlanId());
+		throw new PlanNotFoundException("NoIdException :" + planMaster.getPlanId());
 	}
 
 	@Override
-	public String deletePlanById(Integer id) throws IdNotFoundException {
+	public String deletePlanById(Integer id) throws PlanNotFoundException {
 		Optional<PlanMaster> findById = planMasterRepository.findById(id);
 		if (findById.isPresent()) {
 			planMasterRepository.deleteById(id);
@@ -76,7 +76,7 @@ public class PlanMasterServiceImpl implements PlanMasterService {
 																				// toString
 			// method
 		}
-		throw new IdNotFoundException("No ID found for deletion: " + id);
+		throw new PlanNotFoundException("No ID found for deletion: " + id);
 	}
 
 	@Override

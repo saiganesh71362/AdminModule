@@ -43,7 +43,7 @@ public class CategoryController {
 		} else {
 			logger.error(AdminModuleAppConstants.CATEGORY_CREATION_FAILD);
 			return new ResponseEntity<>(AdminModuleAppConstants.CATEGORY_CREATION_FAILD,
-					HttpStatus.INTERNAL_SERVER_ERROR);
+					HttpStatus.BAD_REQUEST);
 		}
 	}
 

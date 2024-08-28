@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
 			return findById.get();
 		}
 
-		throw new IdNotFoundException("There is no category with ID: " + id);
+		throw new CategoryNotFoundException("There is no category with ID: " + id);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class CategoryServiceImpl implements CategoryService {
 			categoryRepository.save(existingCategory);
 			return "Updated Record Success Fully :" + existingCategory.getCategoryId();
 		}
-		throw new IdNotFoundException("Their Is No Record :" + category.getCategoryId());
+		throw new CategoryNotFoundException("Their Is No Record :" + category.getCategoryId());
 	}
 
 	@Override
@@ -79,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 
 		// Do not try to access findById.get() here, it is not present
-		throw new IdNotFoundException("There is no record with ID: " + id);
+		throw new CategoryNotFoundException("There is no record with ID: " + id);
 	}
 
 	@Override

@@ -1,7 +1,10 @@
 package com.acruent.admin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -15,6 +18,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.acruent.admin.entity.PlanMaster;
+import com.acruent.admin.exceptionhandle.PlanNotFoundException;
 import com.acruent.admin.repository.PlanMasterRepository;
 import com.acruent.admin.serviceimpl.PlanMasterServiceImpl;
 
@@ -62,7 +66,24 @@ class PlanServiceTest {
 
 	@Test
 	@Order(3)
-	 void test_createPlan() {
+	void test_getPlanById_NotFound() {
+		// Arrange
+		Integer planId = 1;
+
+		// Simulate that the plan is not found
+		when(planMasterRepository.findById(planId)).thenReturn(Optional.empty());
+
+		// Act & Assert
+		PlanNotFoundException exception = assertThrows(PlanNotFoundException.class,
+				() -> planMasterServiceImpl.getPlanById(planId));
+
+		assertEquals("Plan ID not found: " + planId, exception.getMessage());
+		verify(planMasterRepository).findById(planId);
+	}
+
+	@Test
+	@Order(4)
+	void test_createPlan() {
 		PlanMaster plan4 = new PlanMaster("QHP", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y", "Admin",
 				"Admin");
 		when(planMasterRepository.save(plan4)).thenAnswer(invocation -> {
@@ -76,7 +97,37 @@ class PlanServiceTest {
 	}
 
 	@Test
-	@Order(4)
+	@Order(5)
+	void test_CreatePlan_Failure_NoIdGenerated() {
+		// Arrange
+		PlanMaster planMaster = new PlanMaster();
+		when(planMasterRepository.save(planMaster)).thenReturn(new PlanMaster());
+
+		// Act
+		String result = planMasterServiceImpl.createPlan(planMaster);
+
+		// Assert
+		assertEquals("Record Creation Faildnull", result);
+		verify(planMasterRepository).save(planMaster);
+	}
+
+	@Test
+	@Order(6)
+	void test_CreatePlan_AlreadyExists() {
+		// Arrange
+		PlanMaster planMaster = new PlanMaster();
+		planMaster.setPlanId(1);
+
+		// Act
+		String result = planMasterServiceImpl.createPlan(planMaster);
+
+		// Assert
+		assertEquals("Record Already Created  :1", result);
+		verify(planMasterRepository, never()).save(planMaster);
+	}
+
+	@Test
+	@Order(7)
 	void test_updatePlanById() throws Exception {
 		PlanMaster existingPlan = new PlanMaster("QHP", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
@@ -93,7 +144,26 @@ class PlanServiceTest {
 	}
 
 	@Test
-	@Order(5)
+	@Order(8)
+	void test_UpdatePlanById_NotFound() {
+		// Arrange
+		Integer planId = 1;
+		PlanMaster planMaster = new PlanMaster();
+		planMaster.setPlanId(planId);
+
+		// Simulate that the plan is not found
+		when(planMasterRepository.findById(planId)).thenReturn(Optional.empty());
+
+		// Act & Assert
+		PlanNotFoundException exception = assertThrows(PlanNotFoundException.class,
+				() -> planMasterServiceImpl.updatePlanById(planMaster, planId));
+
+		assertEquals("NoIdException :" + planMaster.getPlanId(), exception.getMessage());
+		verify(planMasterRepository).findById(planId);
+	}
+
+	@Test
+	@Order(9)
 	void test_deletePlanById() throws Exception {
 		PlanMaster plan5 = new PlanMaster("MEDICAL", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
@@ -107,7 +177,25 @@ class PlanServiceTest {
 	}
 
 	@Test
-	@Order(6)
+	@Order(10)
+	void test_DeletePlanById_NotFound() {
+		// Arrange
+		Integer planId = 1;
+
+		// Simulate that the plan is not found
+		when(planMasterRepository.findById(planId)).thenReturn(Optional.empty());
+
+		// Act & Assert
+		PlanNotFoundException exception = assertThrows(PlanNotFoundException.class,
+				() -> planMasterServiceImpl.deletePlanById(planId));
+
+		assertEquals("No ID found for deletion: " + planId, exception.getMessage());
+		verify(planMasterRepository).findById(planId);
+		verify(planMasterRepository, never()).deleteById(planId);
+	}
+
+	@Test
+	@Order(11)
 	void test_planStatusChange() {
 		PlanMaster plan5 = new PlanMaster("MEDICAL", LocalDate.of(2024, 8, 3), LocalDate.of(2025, 8, 2), 1, "Y",
 				"Admin", "Admin");
