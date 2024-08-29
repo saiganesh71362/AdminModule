@@ -40,6 +40,8 @@
         **/com/acruent/admin/exceptionhandle/PlanNotFoundException.java,
         **/com/acruent/admin/appconstants/AdminModuleAppConstants.java
     </sonar.coverage.exclusions>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+		<spring-boot-admin.version>3.3.3</spring-boot-admin.version>
     </properties>
 <dependencies>
 		<dependency>
@@ -87,8 +89,33 @@
     <groupId>org.apache.logging.log4j</groupId>
     <artifactId>log4j-core</artifactId>
    </dependency>
+   	<!-- Zipkin Server 3 dependencies -->
+   	<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-tracing-bridge-brave</artifactId>
+ 		</dependency>
 
-  
+      <!-- Eurka Client 1 dependencies -->
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+		
+       <!-- Admin Client 1 dependencies -->
+
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
  </dependencies>
  <build>
 		<plugins>
@@ -140,4 +167,22 @@
 		</plugins>
 	</build>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-dependencies</artifactId>
+				<version>${spring-boot-admin.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
