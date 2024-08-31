@@ -42,8 +42,7 @@ public class CategoryController {
 			return new ResponseEntity<>(createCategory, HttpStatus.CREATED);
 		} else {
 			logger.error(AdminModuleAppConstants.CATEGORY_CREATION_FAILD);
-			return new ResponseEntity<>(AdminModuleAppConstants.CATEGORY_CREATION_FAILD,
-					HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(AdminModuleAppConstants.CATEGORY_CREATION_FAILD, HttpStatus.BAD_REQUEST);
 		}
 	}
 
